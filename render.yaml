@@ -1,8 +1,9 @@
 services:
-  - type: worker
-    name: doc-bot
+  - type: web
+    name: doc---bot
     env: python
-    buildCommand: ""
-    startCommand: python3 main.bot/main.py
-    autoDeploy: true
-    repo: https://github.com/Roogithub/doc---bot.git
+    region: oregon
+    plan: free
+    buildCommand: pip install -r main.bot/requirements.txt
+    startCommand: python main.bot/main.py
+    rootDir: .
