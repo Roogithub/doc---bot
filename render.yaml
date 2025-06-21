@@ -4,6 +4,6 @@ services:
     env: python
     region: oregon
     plan: free
-    buildCommand: pip install -r main.bot/requirements.txt
-    startCommand: python main.bot/main.py
-    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    rootDir: main.bot
