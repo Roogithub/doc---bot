@@ -1,0 +1,8 @@
+services:
+  - type: worker
+    name: doc-bot
+    env: python
+    buildCommand: ""
+    startCommand: python3 main.bot/main.py
+    autoDeploy: true
+    repo: https://github.com/Roogithub/doc---bot.git
