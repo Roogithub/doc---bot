@@ -43,21 +43,8 @@ bot_token = os.environ.get("BOT_TOKEN")
 if not bot_token:
     raise RuntimeError("BOT_TOKEN не установлен!")
 
-# 👇 Основной асинхронный запуск
-async def main():
-    client = TelegramClient("bot", api_id, api_hash)
-    await client.start(bot_token=bot_token)
-
-    @client.on(events.NewMessage(pattern='/start'))
-    async def handler(event):
-        await event.respond("✅ Бот запущен и работает!")
-
-    print("✅ Бот успешно запущен.")
-    await client.run_until_disconnected()
-
-if __name__ == '__main__':
-    asyncio.run(main())
-    
+# 🔧 ИСПРАВЛЕНИЕ 1: Создаём client глобально
+client = TelegramClient("bot", api_id, api_hash)
 
 RESOLUTIONS = {
     'Удалить изображения': None,
@@ -95,20 +82,20 @@ async def set_extract_mode(event):
 @client.on(events.NewMessage(pattern=r'/start'))
 async def start_handler(event):
     await event.respond("""
-Добро пожаловать! Доступные команды:
-/compress - Сжатие изображений в файлах
-/convert - Конвертация между форматами
-/extract - Извлечение глав из EPUB
-/help - Помощь
+✅ Добро пожаловать! Доступные команды:
+📦 /compress - Сжатие изображений в файлах
+🔄 /convert - Конвертация между форматами
+📚 /extract - Извлечение глав из EPUB
+❓ /help - Помощь
     """)
 
 @client.on(events.NewMessage(pattern=r'/help'))
 async def help_handler(event):
     await event.respond("""
-Команды бота:
-/compress - Сжатие изображений в FB2, DOCX, EPUB
-/convert - Конвертация между форматами (EPUB, FB2, DOCX, TXT)
-/extract - Создание оглавления для EPUB
+📋 Команды бота:
+📦 /compress - Сжатие изображений в FB2, DOCX, EPUB
+🔄 /convert - Конвертация между форматами (EPUB, FB2, DOCX, TXT)
+📚 /extract - Создание оглавления для EPUB
 
 Поддерживаемые форматы: .epub, .fb2, .docx, .txt
     """)
@@ -505,14 +492,11 @@ def build_epub(title, chapters, image_paths, output_path):
         logging.error(f"Ошибка создания EPUB: {e}")
         raise
 
-# Запуск
+# 🔧 ИСПРАВЛЕНИЕ 2: Убираем дублирование main()
 async def main():
-    try:
-        await client.start(bot_token=bot_token)
-        print("Бот запущен.")
-        await client.run_until_disconnected()
-    except Exception as e:
-        logging.error(f"Ошибка запуска бота: {e}")
+    await client.start(bot_token=bot_token)
+    print("✅ Бот запущен и все команды работают!")
+    await client.run_until_disconnected()
 
 if __name__ == "__main__":
     asyncio.run(main())
