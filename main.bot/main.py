@@ -38,6 +38,11 @@ clean_temp_dir()
 # Конфигурация Telegram
 api_id = 24519852
 api_hash = '2186f59fdf9c2ad4e7ddf0deb250ff0c'
+
+bot_token = os.environ.get("BOT_TOKEN")
+if not bot_token:
+    raise RuntimeError("BOT_TOKEN не установлен!")
+
 client = TelegramClient('unified_bot', api_id, api_hash)
 
 RESOLUTIONS = {
@@ -489,7 +494,7 @@ def build_epub(title, chapters, image_paths, output_path):
 # Запуск
 async def main():
     try:
-        await client.start()
+        await client.start(bot_token=bot_token)
         print("Бот запущен.")
         await client.run_until_disconnected()
     except Exception as e:
