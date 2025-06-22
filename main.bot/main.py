@@ -38,12 +38,26 @@ clean_temp_dir()
 # Конфигурация Telegram
 api_id = 24519852
 api_hash = '2186f59fdf9c2ad4e7ddf0deb250ff0c'
-
 bot_token = os.environ.get("BOT_TOKEN")
+
 if not bot_token:
     raise RuntimeError("BOT_TOKEN не установлен!")
 
-client = TelegramClient('bot', api_id, api_hash).start(bot_token=bot_token)
+# 👇 Основной асинхронный запуск
+async def main():
+    client = TelegramClient("bot", api_id, api_hash)
+    await client.start(bot_token=bot_token)
+
+    @client.on(events.NewMessage(pattern='/start'))
+    async def handler(event):
+        await event.respond("✅ Бот запущен и работает!")
+
+    print("✅ Бот успешно запущен.")
+    await client.run_until_disconnected()
+
+if __name__ == '__main__':
+    asyncio.run(main())
+    
 
 RESOLUTIONS = {
     'Удалить изображения': None,
