@@ -39,7 +39,7 @@ clean_temp_dir()
 api_id = 24519852
 api_hash = '2186f59fdf9c2ad4e7ddf0deb250ff0c'
 
-bot_token = os.environ.get("8132272242:AAEYRMpLrS_q_SpSxBBBnjYE3CIszB8eZ48")
+bot_token = os.environ.get("BOT_TOKEN")
 if not bot_token:
     raise RuntimeError("BOT_TOKEN не установлен!")
 
